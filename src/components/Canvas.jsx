@@ -2,13 +2,17 @@ import React, { useEffect, useRef, useState } from 'react'
 import images from '../canvasimages.js'
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
-function Canvas({startIndex}) {
+function Canvas({details}) {
+    const {numImages ,startIndex,duration,zIndex,left,top,size} =details;
     const canvasRef = useRef(null);
     const [index , setIndex] =useState({value:startIndex});
+    useEffect(()=>{
+        console.log("from canvas ",details);
+    },[]);
     useGSAP(()=>{
         gsap.to(index,{
-            value:startIndex+149,
-            duration:3,
+            value:startIndex+numImages ,
+            duration:duration,
             repeat:-1,
             ease:"linear",
             onUpdate:()=>{
@@ -28,7 +32,8 @@ function Canvas({startIndex}) {
         };
     }, [index])
     return (
-        <canvas ref={canvasRef} className='w-[18rem] h-[18rem]' id='canvas' ></canvas>
+        // fixed top-[${top}px] left-[${left}px] z-[${zIndex}] 
+        <canvas ref={canvasRef} style={{width:`${size}px`,height:`${size}px`,top:`${top}%`,left:`${left}%`,position:'fixed'}} id='canvas' ></canvas>
     )
 }
 
